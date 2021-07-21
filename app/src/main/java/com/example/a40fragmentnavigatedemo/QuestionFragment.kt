@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.inflate
 import androidx.navigation.Navigation
 import com.example.a40fragmentnavigatedemo.databinding.FragmentQuestionBinding
 
@@ -59,7 +60,7 @@ class QuestionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_question, container, false)
+        binding = inflate(inflater,R.layout.fragment_question, container, false)
 
         setQuestion()
 
@@ -86,7 +87,10 @@ class QuestionFragment : Fragment() {
                     setQuestion()
 
                 } else {
-                    Navigation.findNavController(it).navigate(R.id.action_questionFragment_to_thankyouFragment)
+                    val percentage :Float = ((score).toFloat()/questions.size) * 100
+
+                    val action = QuestionFragmentDirections.actionQuestionFragmentToThankyouFragment(percentage)
+                    Navigation.findNavController(it).navigate(action)
                 }
             }else{
                 Toast.makeText(context, "please select answer", Toast.LENGTH_LONG).show()
